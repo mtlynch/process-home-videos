@@ -23,6 +23,7 @@ ACTUAL_LS_OUTPUT=$(mktemp)
 ls "$PROCESSED_VIDEOS_DIR" \
   --recursive \
   --size \
+   --sort=time \
   -1 \
   > "$ACTUAL_LS_OUTPUT"
 
