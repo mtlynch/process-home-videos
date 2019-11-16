@@ -7,7 +7,7 @@ from app import config
 
 class TestConfigFromYaml(unittest.TestCase):
 
-    def test_parses_yaml(self):
+    def test_parses_fully_populated_yaml(self):
         self.assertEqual(
             {
                 'birthdays': {
@@ -51,3 +51,33 @@ class TestConfigFromYaml(unittest.TestCase):
         - Alan Crosses Finish Line
         - Charlie Bites My Finger
       """)))
+
+    def test_parses_unpopulated_yaml(self):
+        self.assertEqual(
+            {
+                'birthdays': {},
+                'tags': {
+                    'keywords': [],
+                    'mappings': {},
+                },
+                'incorrectly_ordered_scenes': [],
+            },
+            config.from_yaml(
+                io.StringIO("""
+      birthdays:
+      tags:
+        keywords:
+        mappings:
+      incorrectly_ordered_scenes:
+      """)))
+
+    def test_parses_empty_yaml(self):
+        self.assertEqual(
+            {
+                'birthdays': {},
+                'tags': {
+                    'keywords': [],
+                    'mappings': {},
+                },
+                'incorrectly_ordered_scenes': [],
+            }, config.from_yaml(io.StringIO()))
