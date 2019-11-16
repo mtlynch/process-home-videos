@@ -1,0 +1,13 @@
+birthdays:
+  adam: '1940-03-02'
+  trudy: '1936-10-28'
+  skip: '1951-04-18'
+tags:
+  keywords:
+    - adam
+    - trudy
+    - abigail
+    - archie
+    - skip
+  mappings:
+    bessie: bessie the cow

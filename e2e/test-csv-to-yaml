@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Exit build script on first failure
+set -e
+
+# Echo commands to stdout.
+set -x
+
+ACTUAL_YAML_OUTPUT_FILE=$(mktemp)
+
+app/csv_to_yaml.py \
+  --config e2e/testdata/config.yaml \
+  e2e/testdata/scenes.csv \
+  > "$ACTUAL_YAML_OUTPUT_FILE"
+
+GOLDEN_YAML_OUTPUT_FILE="e2e/testdata/golden/scene-metadata.yaml"
+
+diff --context=5 "$GOLDEN_YAML_OUTPUT_FILE" "$ACTUAL_YAML_OUTPUT_FILE"
