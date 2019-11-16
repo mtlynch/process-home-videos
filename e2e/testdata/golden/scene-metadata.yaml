@@ -8,7 +8,10 @@
   duration_frames: 457
   raw_source_filename: TexasFar1952.mp4
   rendered_filename: Texas Family - 1952 - 01 - Abigail Primping Adam.mp4
-  tags: [abigail, adam, best of]
+  tags:
+  - abigail
+  - adam
+  - best of
   timecode_start: '0:00:00.934267'
   title: Abigail Primping Adam
 - description: 'Abigail does a cute wink at the end.
@@ -21,7 +24,9 @@
   duration_frames: 2694
   raw_source_filename: TexasFar1952.mp4
   rendered_filename: Texas Family - 1952 - 02 - Abigail Standing on the Stairs.mp4
-  tags: [abigail, skip]
+  tags:
+  - abigail
+  - skip
   timecode_start: '0:00:17.817801'
   title: Abigail Standing on the Stairs
 - description: 'Adam is 12.
@@ -32,7 +37,8 @@
   duration_frames: 530
   raw_source_filename: TexasFar1952.mp4
   rendered_filename: Texas Family - 1952 - 03 - Adam Plays with Cars on the Sidewalk.mp4
-  tags: [adam]
+  tags:
+  - adam
   timecode_start: '0:01:47.707603'
   title: Adam Plays with Cars on the Sidewalk
 - description: 'Trudy is 15.
@@ -43,7 +49,8 @@
   duration_frames: 943
   raw_source_filename: TexasFar1952.mp4
   rendered_filename: Texas Family - 1952 - 04 - Trudy Working at the Loom.mp4
-  tags: [trudy]
+  tags:
+  - trudy
   timecode_start: '0:02:05.391937'
   title: Trudy Working at the Loom
 - description: 'Archie smokes a cigarette while demonstrating some crop leaves.
@@ -54,7 +61,8 @@
   duration_frames: 1277
   raw_source_filename: TexasFar1952.mp4
   rendered_filename: Texas Family - 1952 - 05 - Archie in the Corn Fields.mp4
-  tags: [archie]
+  tags:
+  - archie
   timecode_start: '0:02:36.856705'
   title: Archie in the Corn Fields
 - description: 'Adam is 12.
@@ -65,7 +73,11 @@
   duration_frames: 6195
   raw_source_filename: TexasFar1952.mp4
   rendered_filename: Texas Family - 1952 - 06 - Tending to the Cows, Bessie Nursing.mp4
-  tags: [abigail, adam, archie, bessie the cow]
+  tags:
+  - abigail
+  - adam
+  - archie
+  - bessie the cow
   timecode_start: '0:03:19.465940'
   title: Tending to the Cows, Bessie Nursing
 - description: 'Adam is 12.
@@ -76,7 +88,9 @@
   duration_frames: 4670
   raw_source_filename: TexasFar1952.mp4
   rendered_filename: Texas Family - 1952 - 07 - Giving Pigs Belly-Rubs.mp4
-  tags: [adam, archie]
+  tags:
+  - adam
+  - archie
   timecode_start: '0:06:46.172446'
   title: Giving Pigs Belly-Rubs
 - description: 'Trudy is almost 16.
@@ -87,7 +101,10 @@
   duration_frames: 3234
   raw_source_filename: TexasFar1952.mp4
   rendered_filename: Texas Family - 1952 - 08 - Checking on the Chickens and Hens.mp4
-  tags: [abigail, archie, trudy]
+  tags:
+  - abigail
+  - archie
+  - trudy
   timecode_start: '0:09:21.994785'
   title: Checking on the Chickens and Hens
 
