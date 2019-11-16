@@ -21,9 +21,8 @@ app/render_scenes.py \
 
 ACTUAL_LS_OUTPUT=$(mktemp)
 ls "$PROCESSED_VIDEOS_DIR" \
-  --recursive \
-  --size \
    --sort=time \
+   --reverse \
   -1 \
   > "$ACTUAL_LS_OUTPUT"
 
