@@ -27,6 +27,7 @@ jobs:
             . venv/bin/activate
             pip install --requirement requirements.txt
             ./e2e/test-csv-to-yaml
+            ./e2e/test-render-scenes
 workflows:
   test:
     jobs:
