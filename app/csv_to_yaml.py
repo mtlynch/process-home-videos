@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # Converts a user-generated CSV of scene metadata into a YAML string.
 
