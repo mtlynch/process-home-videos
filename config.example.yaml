@@ -1,0 +1,25 @@
+# Enter birthdays of people in videos in YYYY-MM-DD format.
+# When the metadata generates age information, it checks the tags for the video
+# against the birthdays in this list.
+birthdays:
+  alice: '2000-01-01'
+  bob: '2001-05-16'
+  charlie: '2002-02-03'
+tags:
+  # Automatically add tags for these words when they appear in the title of a
+  # video.
+  keywords:
+    - alice
+    - bob
+    - charlie
+    - david
+  # Automatically add tags for these words when they appear in a title of a
+  # video, but map them to a different string.
+  #
+  # Example: "Alan Accept an Award" would get tagged as "alan turing"
+  mappings:
+    alan: alan turing
+    grace: grace hopper
+incorrectly_ordered_scenes:
+  - Alan Crosses Finish Line
+  - Charlie Bites My Finger
