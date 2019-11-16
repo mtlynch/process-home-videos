@@ -4,7 +4,7 @@ import yaml
 
 
 def from_yaml(config_file):
-    data = yaml.load(config_file)
+    data = yaml.safe_load(config_file)
     if not data:
         return empty()
     if 'birthdays' in data and data['birthdays']:

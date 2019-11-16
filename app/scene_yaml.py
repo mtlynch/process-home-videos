@@ -8,7 +8,7 @@ def to_yaml(scenes):
 
 
 def from_yaml(yaml_data):
-    scene_dicts = yaml.load(yaml_data)
+    scene_dicts = yaml.safe_load(yaml_data)
     return [_dict_to_scene(d) for d in scene_dicts]
 
 
