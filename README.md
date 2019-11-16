@@ -1,6 +1,6 @@
 # process-home-videos
 
-[![CircleCI](https://circleci.com/gh/mtlynch/process-home-videos.svg?style=svg&circle-token=232f6f4b1f55754b6dc4597dbaa07fb5f3a644d9)](https://circleci.com/gh/mtlynch/process-home-videos)
+[![CircleCI](https://circleci.com/gh/mtlynch/process-home-videos.svg?style=svg)](https://circleci.com/gh/mtlynch/process-home-videos)
 
 ## Overview
 
