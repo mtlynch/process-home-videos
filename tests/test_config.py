@@ -71,6 +71,17 @@ class TestConfigFromYaml(unittest.TestCase):
       incorrectly_ordered_scenes:
       """)))
 
+    def test_parses_yaml_with_only_unrecognized_keys(self):
+        self.assertEqual(
+            {
+                'birthdays': {},
+                'tags': {
+                    'keywords': [],
+                    'mappings': {},
+                },
+                'incorrectly_ordered_scenes': [],
+            }, config.from_yaml(io.StringIO('dummy_unrecognized_key:')))
+
     def test_parses_empty_yaml(self):
         self.assertEqual(
             {

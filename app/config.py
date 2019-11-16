@@ -7,14 +7,27 @@ def from_yaml(config_file):
     data = yaml.load(config_file)
     if not data:
         return empty()
+    if 'birthdays' in data and data['birthdays']:
+        birthdays = _parse_birthdays(data['birthdays'])
+    else:
+        birthdays = {}
+
+    if 'tags' in data and data['tags']:
+        tags = _parse_tags(data['tags'])
+    else:
+        tags = {'keywords': [], 'mappings': {}}
+
+    if 'incorrectly_ordered_scenes' in data and data[
+            'incorrectly_ordered_scenes']:
+        incorrectly_ordered_scenes = _parse_incorrectly_ordered_scenes(
+            data['incorrectly_ordered_scenes'])
+    else:
+        incorrectly_ordered_scenes = []
+
     return {
-        'birthdays':
-            _parse_birthdays(data['birthdays']),
-        'tags':
-            _parse_tags(data['tags']),
-        'incorrectly_ordered_scenes':
-            _parse_incorrectly_ordered_scenes(data['incorrectly_ordered_scenes']
-                                             ),
+        'birthdays': birthdays,
+        'tags': tags,
+        'incorrectly_ordered_scenes': incorrectly_ordered_scenes,
     }
 
 
