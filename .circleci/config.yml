@@ -27,6 +27,9 @@ jobs:
             . venv/bin/activate
             pip install --requirement requirements.txt
             ./e2e/test-csv-to-yaml
+            sudo apt-get update
+            sudo apt-get install ffmpeg --yes
+            ./e2e/test-render-scenes
 workflows:
   test:
     jobs:

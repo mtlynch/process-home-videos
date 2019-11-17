@@ -6,6 +6,12 @@
 
 Python scripts for chopping up raw video files into clips and then publishing those clips to MediaGoblin.
 
+## Requirements
+
+* Python 3.7
+* Docker
+* ffmpeg
+
 ## csv\_to\_yaml
 
 The `csv_to_yaml.py` script takes a CSV spreadsheet and converts it to a YAML file.
