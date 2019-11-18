@@ -18,6 +18,7 @@ services:
       - processed-videos-dir:/processed-videos
     working_dir: /app
     entrypoint: /app/e2e/run-all-e2e-tests
+    command: ["/processed-videos", "mediagoblin", "/publishqueue"]
     depends_on:
       - mediagoblin
 volumes:

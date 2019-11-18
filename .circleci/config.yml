@@ -25,6 +25,7 @@ jobs:
             cd e2e
             docker-compose version
             docker-compose up --exit-code-from e2e --abort-on-container-exit --build
+          no_output_timeout: 20m
 workflows:
   test:
     jobs:
