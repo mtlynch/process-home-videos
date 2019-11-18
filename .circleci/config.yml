@@ -25,11 +25,9 @@ jobs:
             sudo apt-get update
             sudo apt-get install \
               ffmpeg \
-              python3-pip \
+              python3-venv \
               --yes
-            sudo pip3 install virtualenv
-            mkdir -p ./venv
-            virtualenv --python python3 ./venv
+            python3 -m venv ./venv
             . venv/bin/activate
             pip install --requirement requirements.txt
             ./e2e/test-csv-to-yaml
