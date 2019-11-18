@@ -29,7 +29,9 @@ jobs:
             ./e2e/test-csv-to-yaml
             sudo apt-get update
             sudo apt-get install ffmpeg --yes
-            ./e2e/test-render-scenes
+            VIDEOS_DIR=$(mktemp -d)
+            ./e2e/test-render-scenes "$VIDEOS_DIR"
+            ./e2e/test-publish-to-mediagoblin "$VIDEOS_DIR"
 workflows:
   test:
     jobs:

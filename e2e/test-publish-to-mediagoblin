@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Exit build script on first failure.
+set -e
+
+# Echo commands to stdout.
+set -x
+
+METADATA_PATH="e2e/testdata/golden/scene-metadata.yaml"
+CONTAINER_NAME="mediagoblin"
+docker rm -f "$CONTAINER_NAME" || true
+
+if [ -n "$1" ]; then
+  PROCESSED_VIDEOS_DIR="$1"
+else
+  PROCESSED_VIDEOS_DIR=$(mktemp -d)
+  e2e/test-render-scenes "$PROCESSED_VIDEOS_DIR"
+fi
+
+MEDIAGOBLIN_PORT="8080"
+SCENES_DIR="/publishqueue"
+docker run \
+  --tty \
+  --detach \
+  --publish "${MEDIAGOBLIN_PORT}":6543 \
+  --volume "${PROCESSED_VIDEOS_DIR}:${SCENES_DIR}" \
+  --name "$CONTAINER_NAME" \
+  mtlynch/mediagoblin
+
+# Make sure that mediagoblin user in container can read from scenes directory.
+docker exec -it --user root "$CONTAINER_NAME" chmod 777 "$SCENES_DIR"
+
+# Give the container a little time to start up.
+sleep 10
+
+curl \
+  --retry 15 \
+  --retry-delay 2 \
+  --fail \
+  "http://localhost:${MEDIAGOBLIN_PORT}/" > /dev/null
+
+PUBLISH_HISTORY=$(mktemp)
+
+app/publish_to_mediagoblin.py \
+  "$SCENES_DIR" \
+  --metadata "$METADATA_PATH" \
+  --publish_history "$PUBLISH_HISTORY" \
+  --container_name "$CONTAINER_NAME" \
+  --username "admin"
+
+docker rm -f "$CONTAINER_NAME"
