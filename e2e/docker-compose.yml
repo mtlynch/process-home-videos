@@ -1,0 +1,18 @@
+
+version: '3.2'
+services:
+  mediagoblin:
+    container_name: mediagoblin
+    image: mtlynch/mediagoblin
+    ports:
+      - 8080:6543
+    volumes:
+      - /tmp/processed-videos:/publishqueue
+      - ./testdata/mediagoblin.ini:/srv/mediagoblin.example.org/mediagoblin/mediagoblin.ini
+  e2e:
+    image: circleci/python:3.7.3
+    entrypoint: /e2e-entrypoint.sh
+    volumes:
+      - ./e2e-entrypoint.sh:/e2e-entrypoint.sh
+    depends_on:
+      - mediagoblin

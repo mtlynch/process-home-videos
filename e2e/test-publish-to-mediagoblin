@@ -6,59 +6,54 @@ set -e
 # Echo commands to stdout.
 set -x
 
-METADATA_PATH="e2e/testdata/golden/scene-metadata.yaml"
+# Exit on undefined variables.
+set -u
+
+docker-compose version
+
 CONTAINER_NAME="mediagoblin"
+SCENES_DIR_HOST=/tmp/processed-videos
+SCENES_DIR_CONTAINER=/publishqueue
+rm -rf "$SCENES_DIR_HOST"
+mkdir -p "$SCENES_DIR_HOST"
+
+pushd e2e
 docker rm -f "$CONTAINER_NAME" || true
-
-if [ -n "$1" ]; then
-  PROCESSED_VIDEOS_DIR="$1"
-else
-  PROCESSED_VIDEOS_DIR=$(mktemp -d)
-  e2e/test-render-scenes "$PROCESSED_VIDEOS_DIR"
-fi
-
-MEDIAGOBLIN_PORT="8080"
-SCENES_DIR="/publishqueue"
-docker run \
-  --tty \
-  --detach \
-  --publish "0.0.0.0:${MEDIAGOBLIN_PORT}":6543 \
-  --volume "${PROCESSED_VIDEOS_DIR}:${SCENES_DIR}" \
-  --volume "${PWD}/e2e/testdata/mediagoblin.ini:/srv/mediagoblin.example.org/mediagoblin/mediagoblin.ini" \
-  --name "$CONTAINER_NAME" \
-  mtlynch/mediagoblin
+docker-compose up -d
 
 # Make sure that mediagoblin user in container can read from scenes directory.
-docker exec -it --user root "$CONTAINER_NAME" chmod 777 "$SCENES_DIR"
+docker exec -it --user root "$CONTAINER_NAME" chmod 777 "$SCENES_DIR_CONTAINER"
 
-# Give the container a little time to start up.
+# Give the MediaGoblin container a little time to start up.
 sleep 10
 
 curl \
   --retry 15 \
   --retry-delay 2 \
   --fail \
-  "http://localhost:${MEDIAGOBLIN_PORT}/" > /dev/null
+  "http://localhost:8080/" > /dev/null
 
+METADATA_PATH="testdata/golden/scene-metadata.yaml"
 ACTUAL_PUBLISH_HISTORY=$(mktemp)
 
-app/publish_to_mediagoblin.py \
-  "$SCENES_DIR" \
+../app/publish_to_mediagoblin.py \
+  "$SCENES_DIR_CONTAINER" \
   --metadata "$METADATA_PATH" \
   --publish_history "$ACTUAL_PUBLISH_HISTORY" \
   --container_name "$CONTAINER_NAME" \
   --username "admin"
 
-GOLDEN_PUBLISH_HISTORY="e2e/testdata/golden/processed-clips-output.txt"
+GOLDEN_PUBLISH_HISTORY="testdata/golden/processed-clips-output.txt"
 diff --context=2 "$GOLDEN_PUBLISH_HISTORY" "$ACTUAL_PUBLISH_HISTORY"
 
 # Running again should have no effect and should not change the publish history.
-app/publish_to_mediagoblin.py \
-  "$SCENES_DIR" \
+../app/publish_to_mediagoblin.py \
+  "$SCENES_DIR_CONTAINER" \
   --metadata "$METADATA_PATH" \
   --publish_history "$ACTUAL_PUBLISH_HISTORY" \
   --container_name "$CONTAINER_NAME" \
   --username "admin"
-diff --context=2 "$GOLDEN_PUBLISH_HISTORY" "$PUBLISH_HISTORY_ACTUAL"
+diff --context=2 "$GOLDEN_PUBLISH_HISTORY" "$ACTUAL_PUBLISH_HISTORY"
 
-docker rm -f "$CONTAINER_NAME"
+docker-compose down
+popd
