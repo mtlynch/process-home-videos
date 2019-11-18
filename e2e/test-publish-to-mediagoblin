@@ -9,29 +9,9 @@ set -x
 # Exit on undefined variables.
 set -u
 
-docker-compose version
-
 CONTAINER_NAME="mediagoblin"
-SCENES_DIR_HOST=/tmp/processed-videos
+SCENES_DIR_HOST="$1"
 SCENES_DIR_CONTAINER=/publishqueue
-rm -rf "$SCENES_DIR_HOST"
-mkdir -p "$SCENES_DIR_HOST"
-
-pushd e2e
-docker rm -f "$CONTAINER_NAME" || true
-docker-compose up -d
-
-# Make sure that mediagoblin user in container can read from scenes directory.
-docker exec -it --user root "$CONTAINER_NAME" chmod 777 "$SCENES_DIR_CONTAINER"
-
-# Give the MediaGoblin container a little time to start up.
-sleep 10
-
-curl \
-  --retry 15 \
-  --retry-delay 2 \
-  --fail \
-  "http://localhost:8080/" > /dev/null
 
 METADATA_PATH="testdata/golden/scene-metadata.yaml"
 ACTUAL_PUBLISH_HISTORY=$(mktemp)

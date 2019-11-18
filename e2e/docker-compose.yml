@@ -7,12 +7,18 @@ services:
     ports:
       - 8080:6543
     volumes:
-      - /tmp/processed-videos:/publishqueue
+      - processed-videos-dir:/publishqueue
       - ./testdata/mediagoblin.ini:/srv/mediagoblin.example.org/mediagoblin/mediagoblin.ini
   e2e:
-    image: circleci/python:3.7.3
-    entrypoint: /e2e-entrypoint.sh
+    container_name: e2e
+    build:
+      context: ./
     volumes:
-      - ./e2e-entrypoint.sh:/e2e-entrypoint.sh
+      - ../:/app
+      - processed-videos-dir:/processed-videos
+    working_dir: /app
+    entrypoint: /app/e2e/run-all-e2e-tests
     depends_on:
       - mediagoblin
+volumes:
+  processed-videos-dir:
