@@ -15,20 +15,24 @@ jobs:
             pip install --requirement dev_requirements.txt
             ./build
   e2e:
-    docker:
-      - image: circleci/python:3.7.3
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
       - checkout
       - run:
           name: Install requirements and run e2e scripts
           command: |
+            sudo apt-get update
+            sudo apt-get install \
+              ffmpeg \
+              python3-pip \
+              --yes
+            sudo pip3 install virtualenv
             mkdir -p ./venv
             virtualenv --python python3 ./venv
             . venv/bin/activate
             pip install --requirement requirements.txt
             ./e2e/test-csv-to-yaml
-            sudo apt-get update
-            sudo apt-get install ffmpeg --yes
             VIDEOS_DIR=$(mktemp -d)
             ./e2e/test-render-scenes "$VIDEOS_DIR"
             ./e2e/test-publish-to-mediagoblin "$VIDEOS_DIR"
