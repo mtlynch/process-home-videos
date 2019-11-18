@@ -6,8 +6,8 @@ sudo apt-get install \
   python3 \
   python3-venv \
   --yes
-python3 --version
-python3 -m venv ./venv
+python --version
+python -m venv ./venv
 . venv/bin/activate
 pip install --requirement requirements.txt
 ./e2e/test-csv-to-yaml
