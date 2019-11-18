@@ -208,7 +208,9 @@ def _full_description(description, tags, scene_date, tape_friendly_name,
     description_parts.append('Came from tape "%s," scene #%02d.' %
                              (tape_friendly_name, scene_index))
 
-    return '\n'.join(description_parts)
+    # Add two spaces in the Markdown so that MediaGoblin displays with blank
+    # spaces between lines.
+    return '\n\n'.join(description_parts)
 
 
 def _friendly_date(scene_date):
