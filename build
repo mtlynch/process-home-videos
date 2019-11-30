@@ -13,7 +13,7 @@ SOURCE_DIR=app
 TEST_DIR=tests
 
 # Delete pyc files from previous builds.
-find . -name "*.pyc" -delete
+find . -name "*.pyc" -type f -not -path "./venv/*" -delete
 
 # Run unit tests.
 python -m unittest discover
