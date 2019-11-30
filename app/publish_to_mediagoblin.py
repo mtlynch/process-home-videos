@@ -29,7 +29,8 @@ def main(args):
     configure_logging()
     logger.info('Starting to process scenes')
     mediagoblin.publish_scenes(read_metadata(args.metadata),
-                               args.container_name, args.username,
+                               args.container_name, args.scenes_dir,
+                               args.username,
                                mediagoblin.PublishHistory(args.publish_history))
 
 
@@ -37,8 +38,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         prog='Publish to MediaGoblin',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('scenes_dir',
-                        help='Path to processed (output) videos directory')
+    parser.add_argument(
+        'scenes_dir',
+        help=
+        'Path to processed (output) videos directory within Docker container')
     parser.add_argument('-m',
                         '--metadata',
                         required=True,

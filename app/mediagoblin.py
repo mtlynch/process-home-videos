@@ -5,38 +5,35 @@ import docker
 
 logger = logging.getLogger(__name__)
 
-UPLOADER_USERNAME = 'michael'
 
-
-def publish_scenes(scenes, container_name, publisher_username, publish_history):
+def publish_scenes(scenes, container_name, scenes_dir, publisher_username,
+                   publish_history):
     for scene in scenes:
         if publish_history.is_published(scene.rendered_filename):
             logger.info('%s is already published, skipping',
                         scene.rendered_filename)
             continue
-        # TEMP
-        if not os.path.exists(
-                os.path.join('/mnt/videos-processed', scene.rendered_filename)):
-            continue
-        _publish_scene(scene, container_name, publisher_username,
+        _publish_scene(scene, container_name, scenes_dir, publisher_username,
                        publish_history)
 
 
-def _publish_scene(scene, container_name, publisher_username, publish_history):
-    _docker_publish(container_name, publisher_username, scene.rendered_filename,
-                    scene.title, scene.description, scene.tags)
+def _publish_scene(scene, container_name, scenes_dir, publisher_username,
+                   publish_history):
+    _docker_publish(container_name, scenes_dir, publisher_username,
+                    scene.rendered_filename, scene.title, scene.description,
+                    scene.tags)
     publish_history.add_to_history(scene.rendered_filename)
 
 
-def _docker_publish(container_name, publisher_username, file_path, title,
-                    description, tags):
+def _docker_publish(container_name, scenes_dir, publisher_username, file_path,
+                    title, description, tags):
     logger.info('Publishing "%s" to docker container %s', file_path,
                 container_name)
     client = docker.from_env()
     container = client.containers.get(container_name)
     rc, output = container.exec_run(cmd=[
         'bin/gmg', 'addmedia', publisher_username,
-        '/publishqueue/%s' % file_path, '--title', title, '--description',
+        os.path.join(scenes_dir, file_path), '--title', title, '--description',
         description, '--tags', ','.join(tags)
     ])
     if rc:
