@@ -12,7 +12,11 @@ wget https://github.com/mtlynch/free-usage-videos/blob/master/texas-farm-family-
   -O TexasFar1952.mp4
 popd
 
-PROCESSED_VIDEOS_DIR=$(mktemp -d)
+if [ -n "$1" ]; then
+  PROCESSED_VIDEOS_DIR="$1"
+else
+  PROCESSED_VIDEOS_DIR=$(mktemp -d)
+fi
 
 app/render_scenes.py \
   --metadata e2e/testdata/golden/scene-metadata.yaml \

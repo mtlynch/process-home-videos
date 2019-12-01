@@ -15,21 +15,17 @@ jobs:
             pip install --requirement dev_requirements.txt
             ./build
   e2e:
-    docker:
-      - image: circleci/python:3.7.3
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
       - checkout
       - run:
           name: Install requirements and run e2e scripts
           command: |
-            mkdir -p ./venv
-            virtualenv --python python3 ./venv
-            . venv/bin/activate
-            pip install --requirement requirements.txt
-            ./e2e/test-csv-to-yaml
-            sudo apt-get update
-            sudo apt-get install ffmpeg --yes
-            ./e2e/test-render-scenes
+            cd e2e
+            docker-compose version
+            docker-compose up --exit-code-from e2e --abort-on-container-exit --build
+          no_output_timeout: 20m
 workflows:
   test:
     jobs:

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Exit build script on first failure.
+set -e
+
+# Echo commands to stdout.
+set -x
+
+# Exit on undefined variables.
+set -u
+
+CONTAINER_NAME="$1"
+SCENES_DIR_CONTAINER="$2"
+
+METADATA_PATH="e2e/testdata/golden/scene-metadata.yaml"
+ACTUAL_PUBLISH_HISTORY=$(mktemp)
+
+app/publish_to_mediagoblin.py \
+  "$SCENES_DIR_CONTAINER" \
+  --metadata "$METADATA_PATH" \
+  --publish_history "$ACTUAL_PUBLISH_HISTORY" \
+  --container_name "$CONTAINER_NAME" \
+  --username "admin"
+
+GOLDEN_PUBLISH_HISTORY="e2e/testdata/golden/processed-clips-output.txt"
+diff --context=2 "$GOLDEN_PUBLISH_HISTORY" "$ACTUAL_PUBLISH_HISTORY"
+
+# Running again should have no effect and should not change the publish history.
+app/publish_to_mediagoblin.py \
+  "$SCENES_DIR_CONTAINER" \
+  --metadata "$METADATA_PATH" \
+  --publish_history "$ACTUAL_PUBLISH_HISTORY" \
+  --container_name "$CONTAINER_NAME" \
+  --username "admin"
+diff --context=2 "$GOLDEN_PUBLISH_HISTORY" "$ACTUAL_PUBLISH_HISTORY"
