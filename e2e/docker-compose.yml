@@ -14,8 +14,14 @@ services:
     build:
       context: ./
     volumes:
+      # Make sure the container doesn't inherit the host's virtualenv
+      # directory.
+      - /app/venv
       - ../:/app
       - processed-videos-dir:/processed-videos
+      # Need to mount the host's Docker socket so that container can call
+      # Docker APIs.
+      - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /app
     entrypoint: /app/e2e/run-all-e2e-tests
     command: ["/processed-videos", "mediagoblin", "/publishqueue"]
