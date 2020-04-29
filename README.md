@@ -11,6 +11,18 @@ Python scripts for chopping up raw video files into clips and then publishing th
 * Python 3.7
 * Docker
 * ffmpeg
+* virtualenv
+
+## Installation
+
+To run this project in a virtualenv, run the following
+
+```bash
+mkdir -p ./venv
+virtualenv --python python3 ./venv
+. venv/bin/activate
+pip install --requirement requirements.txt
+```
 
 ## csv\_to\_yaml
 
@@ -42,6 +54,11 @@ app/render_scenes.py \
 
 ## publish\_to\_mediagoblin
 
+The `publish_to_mediagoblin` script uploads scenes to a MediaGoblin instance running in the specified Docker container.
+
+* `--publish_history` is a flat text file of files that have previously been uploaded to this container (in case the publish process is interrupted and resumed)
+* `--conatiner_name` is the name of the target Docker container running MediaGoblin.
+
 ### Example
 
 ```bash
@@ -50,4 +67,31 @@ app/publish_to_mediagoblin.py \
   --metadata ~/metadata/scenes.yaml \
   --publish_history ~/metadata/publish-history.txt \
   --container_name mediagoblin
+```
+
+## Contributing
+
+A lot of this code is very quick 'n dirty, as I never intended it to be a long-term project. If you'd like to iterate on it, I'm happy to accept contributions, but I apologize for the quality of the code.
+
+To install with dev tools:
+
+```bash
+mkdir -p ./venv
+virtualenv --python python3 ./venv
+. venv/bin/activate
+pip install --requirement requirements.txt
+pip install --requirement dev_requirements.txt
+hooks/enable_hooks
+```
+
+To run quick tests:
+
+```bash
+./build
+```
+
+To run end-to-end tests:
+
+```bash
+./e2e/run-all-e2e-tests
 ```
