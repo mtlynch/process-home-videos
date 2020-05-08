@@ -61,8 +61,7 @@ venv/
 
 # Vim
 *~
-*.swp
-*.swo
+*.sw?
 
 # Mac OS
 *.DS_Store
