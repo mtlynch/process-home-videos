@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 def render_scenes(scenes, input_dir, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
     for scene in scenes:
         _render_scene(scene, input_dir, output_dir)
 
