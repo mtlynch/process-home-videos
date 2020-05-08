@@ -36,6 +36,7 @@ def _docker_publish(container_name, scenes_dir, publisher_username, file_path,
         os.path.join(scenes_dir, file_path), '--title', title, '--description',
         description, '--tags', ','.join(tags)
     ])
+    print(output.decode('utf8'))
     if rc:
         raise ValueError('Docker command failed with exit code %s: %s' %
                          (rc, output))
